@@ -1,0 +1,71 @@
+@import "./fonts.css";
+@import "./base.css";
+@import "./pages/landing.css";
+@import "./components/navbar.css";
+@import "./components/brands.css";
+@import "./components/services.css";
+@import "./components/services-carousel.css";
+@import "./components/about.css";
+@import "./components/our-work.css";
+@import "./components/process.css";
+@import "./components/testimonials.css";
+@import "./components/footer.css";
+
+:root {
+    /* OLED/Spatial UI Glass Colors */
+    --color-primary: rgba(10, 15, 25, 0.6); /* Darker, high contrast background */
+    --color-secondary: rgba(255, 255, 255, 0.1);
+    --color-cta: #06B6D4;
+    /* Cosmic Cyan */
+    --color-text: #FAFAF9;
+
+    /* Fonts */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Archivo', sans-serif;
+
+    /* Spacing */
+    --space-md: 16px;
+    --space-lg: 24px;
+
+    /* Shadows */
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading) !important;
+}
+
+.global_3d_background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.planet_fixed_container {
+    position: absolute;
+    inset: 0;
+}
+
+.global_dim_overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(1, 4, 9, 0.75);
+    /* Dark blue/black tint */
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    /* Starts hidden in the Hero section */
+}

@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter/InterVariable-Italic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond/AppleGaramond.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond/AppleGaramond-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond/AppleGaramond-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond/AppleGaramond-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond/AppleGaramond-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AppleGaramond';
+  src: url('/fonts/AppleGaramond/AppleGaramond-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --inter: 'Inter', sans-serif;
+  --apple-garamond: 'AppleGaramond', serif;
+}
+
+body {
+  font-family: var(--inter), serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--apple-garamond), serif;
+  line-height: 95%;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(4.5rem, -0.875rem + 8.333vw, 9.5rem);
+}
+
+p {
+  font-size: 18px;
+  font-family: var(--inter), serif;
+  line-height: 150%;
+  margin: 0;
+}
