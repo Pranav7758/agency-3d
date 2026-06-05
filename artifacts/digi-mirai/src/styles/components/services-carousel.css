@@ -7,50 +7,107 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
   overflow: hidden;
+  /* Space starfield + milky way */
+  background-image:
+    url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center center;
 }
 
-/* ── Ambient glow orbs ────────────────────────────────────────────── */
-
-.fan_glow_orb {
+/* Dark vignette over the space photo so text stays readable */
+.fan_section::before {
+  content: '';
   position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(80px);
+  inset: 0;
+  background: rgba(2, 5, 18, 0.58);
   z-index: 0;
+  pointer-events: none;
 }
 
-.fan_glow_orb--left {
-  width: 500px;
-  height: 500px;
-  top: 10%;
-  left: -10%;
-  background: radial-gradient(circle, rgba(25, 80, 228, 0.12), transparent 70%);
+/* Extra inner vignette from edges */
+.fan_space_bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 0%,   transparent 40%, rgba(2,5,18,0.7) 100%),
+    radial-gradient(ellipse at 0%   50%, rgba(2,5,18,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 100% 50%, rgba(2,5,18,0.5) 0%, transparent 60%);
 }
 
-.fan_glow_orb--right {
-  width: 400px;
-  height: 400px;
-  top: 20%;
-  right: -8%;
-  background: radial-gradient(circle, rgba(131, 58, 180, 0.1), transparent 70%);
-}
+/* ── Glowing Earth ────────────────────────────────────────────────── */
 
-.fan_glow_orb--bottom {
-  width: 700px;
-  height: 700px;
-  bottom: -20%;
+.fan_earth_system {
+  position: absolute;
   left: 50%;
+  /* push center of earth below the fold so only the upper portion shows */
+  bottom: -28%;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.07), transparent 65%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Large soft atmosphere behind the sphere */
+.fan_earth_atmo_outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 820px;
+  height: 820px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(6, 182, 212, 0.28) 0%,
+    rgba(25, 80, 228, 0.20) 30%,
+    rgba(6, 182, 212, 0.06) 55%,
+    transparent 72%
+  );
+  filter: blur(30px);
+}
+
+/* Circular Earth wrapper — clips image to sphere */
+.fan_earth_wrap {
+  position: relative;
+  width: 660px;
+  height: 660px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* Glowing atmosphere ring */
+  box-shadow:
+    0 0  60px 30px rgba(6, 182, 212, 0.45),
+    0 0 140px 70px rgba(25, 80, 228, 0.28),
+    0 0 260px 120px rgba(6, 182, 212, 0.12),
+    0 0   0px  2px rgba(6, 182, 212, 0.6);
+}
+
+/* Earth photo — bright, vivid */
+.fan_earth_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  filter: brightness(1.25) saturate(1.35) contrast(1.05);
+  user-select: none;
+}
+
+/* Subtle inner atmosphere rim light */
+.fan_earth_rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 50px 10px rgba(6, 182, 212, 0.18);
+  pointer-events: none;
 }
 
 /* ── Header ───────────────────────────────────────────────────────── */
 
 .fan_header {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -75,13 +132,13 @@
   line-height: 1.05;
   color: white;
   text-shadow:
-    0 0 40px rgba(6, 182, 212, 0.45),
-    0 0 80px rgba(6, 182, 212, 0.2);
+    0 0 40px rgba(6, 182, 212, 0.55),
+    0 0 90px rgba(6, 182, 212, 0.25);
 }
 
 .fan_sub {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.45);
   max-width: 420px;
 }
 
@@ -89,16 +146,14 @@
 
 .fan_cards {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   gap: 1rem;
   max-width: 1300px;
   width: 100%;
-  padding: 0 1rem;
-  /* Extra bottom space for the rotated cards */
-  padding-bottom: 2rem;
+  padding: 0 1rem 2rem;
 }
 
 /* ── Individual glass card ────────────────────────────────────────── */
@@ -127,19 +182,19 @@
   position: absolute;
   inset: 0;
   border-radius: 22px;
-  background: rgba(3, 8, 24, 0.72);
+  background: rgba(3, 8, 24, 0.68);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
 }
 
-/* Top-of-card cyan glow (visible on hover) */
+/* Top-of-card cyan glow on hover */
 .fan_card_glow {
   position: absolute;
   inset: 0;
   border-radius: 22px;
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(6, 182, 212, 0.16) 0%,
+    rgba(6, 182, 212, 0.18) 0%,
     transparent 65%
   );
   opacity: 0;
@@ -151,7 +206,7 @@
   opacity: 1;
 }
 
-/* Cyan border — brightens on hover */
+/* Cyan border */
 .fan_card_border {
   position: absolute;
   inset: 0;
@@ -162,13 +217,13 @@
 }
 
 .fan_card:hover .fan_card_border {
-  border-color: rgba(6, 182, 212, 0.75);
+  border-color: rgba(6, 182, 212, 0.78);
   box-shadow:
-    0 0 28px rgba(6, 182, 212, 0.22),
-    inset 0 1px 0 rgba(6, 182, 212, 0.15);
+    0 0 28px rgba(6, 182, 212, 0.25),
+    inset 0 1px 0 rgba(6, 182, 212, 0.18);
 }
 
-/* Content sits above all layers */
+/* Content sits above glass layers */
 .fan_card_inner {
   position: relative;
   z-index: 3;
@@ -199,7 +254,7 @@
 /* Description */
 .fan_card_desc {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.52);
   line-height: 1.65;
   flex: 1;
 }
@@ -233,7 +288,7 @@
 
 .fan_cta_btn {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   margin-top: 5rem;
   display: inline-flex;
   align-items: center;
@@ -247,15 +302,16 @@
   padding: 0.9rem 2.5rem;
   border: 1px solid rgba(6, 182, 212, 0.38);
   border-radius: 40px;
-  background: rgba(6, 182, 212, 0.05);
+  background: rgba(6, 182, 212, 0.06);
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .fan_cta_btn:hover {
-  background: rgba(6, 182, 212, 0.12);
+  background: rgba(6, 182, 212, 0.14);
   border-color: var(--color-cta);
   gap: 0.9rem;
-  box-shadow: 0 0 32px rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 32px rgba(6, 182, 212, 0.25);
 }
 
 /* ── Responsive ───────────────────────────────────────────────────── */
@@ -277,6 +333,11 @@
   .fan_card:hover {
     transform: translateY(-10px) scale(1.02) !important;
   }
+
+  .fan_earth_wrap {
+    width: 480px;
+    height: 480px;
+  }
 }
 
 @media (max-width: 680px) {
@@ -291,6 +352,11 @@
   .fan_title {
     font-size: 2.2rem;
     letter-spacing: -1px;
+  }
+
+  .fan_earth_wrap {
+    width: 320px;
+    height: 320px;
   }
 }
 
