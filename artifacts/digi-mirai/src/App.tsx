@@ -9,12 +9,14 @@ import NotFound from "@/pages/not-found";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import TubesCursor from "@/components/TubesCursor";
+import ParticleField from "@/components/ParticleField";
 
 const queryClient = new QueryClient();
 
 function Router() {
   return (
     <>
+      <ParticleField />
       <TubesCursor />
       <Navbar />
       <Switch>

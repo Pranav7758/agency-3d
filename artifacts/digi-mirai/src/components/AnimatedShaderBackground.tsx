@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 const AnimatedShaderBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,18 +21,31 @@ const AnimatedShaderBackground = () => {
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({ 
-        antialias: true, 
-        alpha: true,
+        antialias: false,
         powerPreference: "high-performance"
       });
     } catch {
       return;
     }
     
-    // HARD CAP pixel ratio at 1 to prevent massive lag on retina/4k screens
     renderer.setPixelRatio(1);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000);
+    // screen blend mode makes black transparent — aurora colors show through
+    renderer.domElement.style.mixBlendMode = 'screen';
     container.appendChild(renderer.domElement);
+
+    // ── Post-processing: Unreal Bloom ──────────────────────────────────────
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      1.4,   // strength
+      0.5,   // radius
+      0.0    // threshold — bloom all bright pixels
+    );
+    composer.addPass(bloomPass);
+    composer.addPass(new OutputPass());
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -118,15 +135,17 @@ const AnimatedShaderBackground = () => {
 
     const animate = () => {
       frameId = requestAnimationFrame(animate);
-      if (!isVisible) return; // SKIP calculation if off-screen!
+      if (!isVisible) return;
       
       material.uniforms.iTime.value += 0.016;
-      renderer.render(scene, camera);
+      composer.render();
     };
     animate();
 
     const handleResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+      bloomPass.resolution.set(window.innerWidth, window.innerHeight);
       material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
@@ -135,9 +154,12 @@ const AnimatedShaderBackground = () => {
       cancelAnimationFrame(frameId);
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
-      container.removeChild(renderer.domElement);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
       geometry.dispose();
       material.dispose();
+      composer.dispose();
       const gl = renderer.getContext();
       if (gl) gl.getExtension("WEBGL_lose_context")?.loseContext();
       renderer.dispose();
