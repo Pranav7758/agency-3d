@@ -3,6 +3,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { ArrowRight, Palette, Code2, TrendingUp, Smartphone, PenTool, Share2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import ServicesPlanet from "./ServicesPlanet";
 
 interface Service {
   icon: LucideIcon;
@@ -90,22 +91,8 @@ export default function ServicesCarousel() {
 
   return (
     <section className="fan_section" id="services" ref={sectionRef}>
-      {/* Stars / space background overlay */}
-      <div className="fan_space_bg" aria-hidden />
-
-      {/* Glowing Earth centered behind the cards */}
-      <div className="fan_earth_system" aria-hidden>
-        <div className="fan_earth_atmo_outer" />
-        <div className="fan_earth_wrap">
-          <img
-            className="fan_earth_img"
-            src="https://images.unsplash.com/photo-1614732414444-096e5f1122d5?auto=format&fit=crop&w=1000&q=80"
-            alt=""
-            draggable={false}
-          />
-          <div className="fan_earth_rim" />
-        </div>
-      </div>
+      {/* Same Three.js planet + stars/milky way — no external images */}
+      <ServicesPlanet />
 
       {/* Header */}
       <header className="fan_header">
