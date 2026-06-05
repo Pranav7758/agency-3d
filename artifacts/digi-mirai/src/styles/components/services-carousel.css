@@ -70,7 +70,6 @@
   border: 1px solid var(--color-secondary);
   border-radius: 32px;
   background: var(--color-primary);
-
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: transform 0.3s ease, border-color 0.3s ease;
@@ -80,15 +79,36 @@
   content: '';
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05); /* Cyan */
+  box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
   border-radius: 32px;
   pointer-events: none;
+  z-index: 20;
+}
+
+/* Cursor-following glow layer */
+.card_cursor_glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    rgba(6, 182, 212, 0.12),
+    transparent 50%
+  );
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.service_carousel_card:hover .card_cursor_glow {
+  opacity: 1;
 }
 
 .service_carousel_card:hover {
-  transform: translateY(-5px);
-  border-color: var(--color-cta);
-  box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.2);
+  transform: translateY(-6px);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(6, 182, 212, 0.15);
 }
 
 .card_gradient_overlay {
@@ -132,6 +152,29 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
+}
+
+/* Large faded number backdrop */
+.card_number_backdrop {
+  position: absolute;
+  top: -0.6rem;
+  right: 1.2rem;
+  font-size: 7rem;
+  font-weight: 900;
+  font-family: var(--font-heading);
+  letter-spacing: -4px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.07);
+  user-select: none;
+  pointer-events: none;
+  transition: -webkit-text-stroke-color 0.3s ease;
+  z-index: 0;
+}
+
+.service_carousel_card:hover .card_number_backdrop {
+  -webkit-text-stroke-color: rgba(6, 182, 212, 0.18);
 }
 
 .card_title {
@@ -141,12 +184,50 @@
   letter-spacing: -0.5px;
   color: white;
   margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
 }
 
 .card_desc {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* See All CTA */
+.services_cta_row {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.services_see_all_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  padding: 0.75rem 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  background: transparent;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.services_see_all_btn:hover {
+  color: var(--color-cta);
+  border-color: var(--color-cta);
+  background: rgba(6, 182, 212, 0.06);
+  gap: 0.75rem;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
 }
 
 .carousel_next_btn {

@@ -60,14 +60,23 @@ const services: Service[] = [
 ];
 
 const ServiceCard = ({ service }: { service: Service }) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
   return (
-    <div className="service_carousel_card">
+    <div className="service_carousel_card" onMouseMove={handleMouseMove}>
       <div className="card_gradient_overlay" style={{ background: service.gradient }}></div>
+      <div className="card_cursor_glow"></div>
       <div className="card_content">
         <div className="card_image_container">
           <img src={service.image} alt={service.title} className="card_image" />
         </div>
         <div className="card_text">
+          <div className="card_number_backdrop">{service.number}</div>
           <h3 className="card_title">{service.title}</h3>
           <p className="card_desc">{service.description}</p>
         </div>
@@ -176,6 +185,12 @@ export default function ServicesCarousel() {
         >
           <ArrowRight size={24} />
         </button>
+      </div>
+
+      <div className="services_cta_row">
+        <a href="/#contact" className="services_see_all_btn">
+          View all services <ArrowRight size={16} />
+        </a>
       </div>
     </section>
   );
