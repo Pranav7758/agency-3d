@@ -1,0 +1,153 @@
+.process_section {
+  padding: 10rem 5%;
+  background-color: transparent;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.process_header {
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+.process_header h2 {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, var(--color-cta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+
+.process_header p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.timeline_container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+/* The vertical line in the background */
+.timeline_line_bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 24px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 0;
+}
+
+/* The line that draws down */
+.timeline_progress {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  width: 2px;
+  background: var(--color-cta);
+  box-shadow: 0 0 20px var(--color-cta);
+  z-index: 1;
+  transform-origin: top;
+}
+
+.process_step {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.step_marker {
+  min-width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.4s ease;
+}
+
+.step_content {
+  position: relative;
+  background: var(--color-primary);
+  border: 1px solid var(--color-secondary);
+  padding: 2.5rem;
+  border-radius: 32px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  flex: 1;
+  transition: all 0.4s ease;
+}
+
+.step_content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.05);
+  border-radius: 32px;
+  pointer-events: none;
+}
+
+.step_content:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--color-cta);
+  box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.15);
+  transform: translateX(10px);
+}
+
+.process_step.active .step_marker {
+  border-radius: 50%;
+  border-color: var(--color-cta);
+  color: white;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+  background: rgba(6, 182, 212, 0.2);
+}
+
+.step_content h3 {
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.step_content p {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .process_step {
+    gap: 1.5rem;
+  }
+
+  .timeline_line_bg,
+  .timeline_progress {
+    left: 20px;
+  }
+
+  .step_marker {
+    min-width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .step_content {
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,112 @@
+.services_horizontal_section {
+  height: 100vh;
+  width: 100%;
+  background-color: #010613;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.services_title_fixed {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  z-index: 11;
+}
+
+.services_title_fixed h2 {
+  font-size: 4rem;
+  font-family: var(--inter);
+  color: white;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #4a96e8, #0b3178);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.services_scroll_wrapper {
+  display: flex;
+  width: 200vw; /* Wide enough to scroll horizontally */
+  height: 100%;
+  align-items: center;
+  padding-left: 50vw; /* Start padding so the first card comes in from the right */
+}
+
+.services_scroll_content {
+  display: flex;
+  gap: 3rem;
+  padding-right: 20vw;
+}
+
+.service_card {
+  width: 400px;
+  height: 450px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  padding: 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.service_card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(74, 150, 232, 0.15), transparent 40%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.service_card:hover::before {
+  opacity: 1;
+}
+
+.service_card:hover {
+  border-color: rgba(74, 150, 232, 0.5);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(74, 150, 232, 0.2);
+}
+
+.service_card h3 {
+  font-size: 2.2rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  font-family: var(--inter);
+  font-weight: 700;
+  z-index: 1;
+  transform: translateZ(30px);
+}
+
+.service_card p {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  z-index: 1;
+  transform: translateZ(20px);
+}
+
+@media (max-width: 768px) {
+  .services_scroll_wrapper {
+    width: 400vw;
+  }
+  .service_card {
+    width: 300px;
+    height: 350px;
+  }
+  .services_title_fixed h2 {
+    font-size: 2.5rem;
+  }
+}
