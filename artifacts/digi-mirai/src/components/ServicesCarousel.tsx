@@ -1,214 +1,148 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import { Plus, Minus, ArrowRight } from "lucide-react";
+import { ArrowRight, Palette, Code2, TrendingUp, Smartphone, PenTool, Share2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-export interface Service {
-  number: string;
+interface Service {
+  icon: LucideIcon;
   title: string;
   description: string;
-  image: string;
-  tags: string[];
+  bullets: string[];
 }
 
 const services: Service[] = [
   {
-    number: "01",
+    icon: Palette,
     title: "Brand Identity",
-    description:
-      "We craft distinctive visual systems that tell your brand's story — logos, typography, colour palettes, and the strategic thinking that ties it all together into something people remember.",
-    image:
-      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80",
-    tags: ["Logo Design", "Visual Identity", "Brand Strategy"],
+    description: "Distinctive visual systems that define who you are and what you stand for.",
+    bullets: ["Logo Design", "Visual Identity"],
   },
   {
-    number: "02",
+    icon: Code2,
     title: "Web Development",
-    description:
-      "From landing pages to full-stack platforms, we build fast, beautiful, and scalable web products. Every line of code is crafted with performance and user experience at its core.",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80",
-    tags: ["React", "Next.js", "Full-Stack"],
+    description: "Fast, beautiful web products built for performance and scale.",
+    bullets: ["React & Next.js", "Full-Stack"],
   },
   {
-    number: "03",
+    icon: TrendingUp,
     title: "SEO & Growth",
-    description:
-      "We engineer your organic presence from the ground up — technical audits, content strategy, link building, and rank tracking so you dominate search and compound growth over time.",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80",
-    tags: ["Technical SEO", "Content Strategy", "Analytics"],
+    description: "Engineer your organic presence and dominate search rankings.",
+    bullets: ["Technical SEO", "Analytics"],
   },
   {
-    number: "04",
+    icon: Smartphone,
     title: "App Development",
-    description:
-      "Native iOS and Android apps, or cross-platform with React Native — built with polished UI and robust architecture that scales as your user base grows.",
-    image:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80",
-    tags: ["iOS", "Android", "React Native"],
+    description: "Polished iOS and Android apps built to scale with your users.",
+    bullets: ["React Native", "iOS & Android"],
   },
   {
-    number: "05",
+    icon: PenTool,
     title: "UI / UX Design",
-    description:
-      "Research-backed design that converts. We map user journeys, prototype interactions, and craft interfaces your users will love — from wireframe to pixel-perfect delivery.",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80",
-    tags: ["Figma", "Prototyping", "User Research"],
+    description: "Research-backed design that converts visitors into customers.",
+    bullets: ["Figma Prototyping", "User Research"],
   },
   {
-    number: "06",
+    icon: Share2,
     title: "Social Media",
-    description:
-      "We build and manage your presence across every platform — content calendars, creative assets, community management, and paid social campaigns that grow your audience.",
-    image:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80",
-    tags: ["Instagram", "LinkedIn", "Paid Social"],
+    description: "Grow your audience and build brand loyalty across all platforms.",
+    bullets: ["Content Strategy", "Paid Social"],
   },
 ];
 
-interface ServiceRowProps {
-  service: Service;
-  isOpen: boolean;
-  isFirst: boolean;
-  onToggle: () => void;
-}
-
-const ServiceRow = ({ service, isOpen, isFirst, onToggle }: ServiceRowProps) => {
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const didMount = useRef(false);
-
-  useEffect(() => {
-    const body = bodyRef.current;
-    if (!body) return;
-
-    if (!didMount.current) {
-      didMount.current = true;
-      if (isOpen) {
-        gsap.set(body, { height: "auto", opacity: 1 });
-      }
-      return;
-    }
-
-    if (isOpen) {
-      gsap.set(body, { height: "auto", opacity: 1 });
-      gsap.from(body, { height: 0, opacity: 0, duration: 0.55, ease: "power3.out" });
-      if (imgRef.current) {
-        gsap.fromTo(
-          imgRef.current,
-          { scale: 1.08, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.65, delay: 0.1, ease: "power3.out" }
-        );
-      }
-    } else {
-      gsap.to(body, { height: 0, opacity: 0, duration: 0.38, ease: "power3.in" });
-    }
-  }, [isOpen]);
-
-  return (
-    <div className={`svc_row${isOpen ? " active" : ""}`}>
-      <div className="svc_row_trigger" onClick={onToggle} role="button" aria-expanded={isOpen}>
-        <span className="svc_row_num">{service.number}</span>
-        <h3 className="svc_row_title">{service.title}</h3>
-        <div className="svc_row_icon">
-          {isOpen ? <Minus size={16} /> : <Plus size={16} />}
-        </div>
-      </div>
-
-      <div className="svc_row_body" ref={bodyRef}>
-        <div className="svc_row_body_inner">
-          <div className="svc_row_left">
-            <p className="svc_row_desc">{service.description}</p>
-            <div className="svc_row_tags">
-              {service.tags.map((tag) => (
-                <span className="svc_tag" key={tag}>{tag}</span>
-              ))}
-            </div>
-          </div>
-          <div className="svc_row_right">
-            <div className="svc_img_wrapper">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="svc_img"
-                ref={imgRef}
-              />
-              <div className="svc_img_shine" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+// Arc offsets: rotate + translateY for the fan effect
+const arc = [
+  { r: -14, y: 110 },
+  { r:  -7, y:  40 },
+  { r:  -2, y:   6 },
+  { r:   2, y:   6 },
+  { r:   7, y:  40 },
+  { r:  14, y: 110 },
+];
 
 export default function ServicesCarousel() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const handleToggle = (i: number) => {
-    setOpenIndex((prev) => (prev === i ? null : i));
-  };
+  const cardRefs   = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     if (!sectionRef.current) return;
 
     gsap.fromTo(
-      sectionRef.current.querySelectorAll(".svc_head_title, .svc_head_sub"),
-      { opacity: 0, y: 60 },
+      sectionRef.current.querySelectorAll(".fan_tag, .fan_title, .fan_sub"),
+      { opacity: 0, y: 50 },
       {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.12,
-        ease: "power3.out",
+        opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: "power3.out",
         scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
       }
     );
 
     gsap.fromTo(
-      sectionRef.current.querySelectorAll(".svc_row"),
-      { opacity: 0, x: -30 },
+      cardRefs.current,
+      { opacity: 0, y: 100, scale: 0.88 },
       {
-        opacity: 1,
-        x: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 70%" },
+        opacity: 1, y: 0, scale: 1, duration: 1, stagger: 0.1,
+        ease: "back.out(1.3)",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 65%" },
       }
     );
   }, []);
 
   return (
-    <section className="services_section" id="services" ref={sectionRef}>
-      <div className="svc_head">
-        <h2 className="svc_head_title">Services.</h2>
-        <p className="svc_head_sub">
-          Everything you need to<br />dominate your market.
-        </p>
+    <section className="fan_section" id="services" ref={sectionRef}>
+      {/* Ambient cosmic glow */}
+      <div className="fan_glow_orb fan_glow_orb--left"  aria-hidden />
+      <div className="fan_glow_orb fan_glow_orb--right" aria-hidden />
+      <div className="fan_glow_orb fan_glow_orb--bottom" aria-hidden />
+
+      {/* Header */}
+      <header className="fan_header">
+        <span className="fan_tag">What we do</span>
+        <h2 className="fan_title">Explore Our Services</h2>
+        <p className="fan_sub">Elevate your digital presence to new heights.</p>
+      </header>
+
+      {/* Fan of glass cards */}
+      <div className="fan_cards" aria-label="Services">
+        {services.map((svc, i) => {
+          const Icon = svc.icon;
+          return (
+            <div
+              key={i}
+              className="fan_card"
+              ref={(el) => { if (el) cardRefs.current[i] = el; }}
+              style={{
+                "--r": `${arc[i].r}deg`,
+                "--ty": `${arc[i].y}px`,
+              } as React.CSSProperties}
+            >
+              {/* Glass layers */}
+              <div className="fan_card_bg"   aria-hidden />
+              <div className="fan_card_glow" aria-hidden />
+              <div className="fan_card_border" aria-hidden />
+
+              {/* Content */}
+              <div className="fan_card_inner">
+                <div className="fan_card_icon_wrap">
+                  <Icon size={26} strokeWidth={1.4} />
+                </div>
+                <h3 className="fan_card_title">{svc.title}</h3>
+                <p  className="fan_card_desc">{svc.description}</p>
+                <ul className="fan_card_bullets">
+                  {svc.bullets.map((b, j) => (
+                    <li key={j}>{b}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      <div className="svc_list">
-        {services.map((service, i) => (
-          <ServiceRow
-            key={i}
-            service={service}
-            isOpen={openIndex === i}
-            isFirst={i === 0}
-            onToggle={() => handleToggle(i)}
-          />
-        ))}
-      </div>
-
-      <div className="svc_cta_row">
-        <a href="/#contact" className="svc_cta_btn">
-          Start a project <ArrowRight size={16} />
-        </a>
-      </div>
+      {/* CTA */}
+      <a href="/#contact" className="fan_cta_btn">
+        View All Services <ArrowRight size={16} />
+      </a>
     </section>
   );
 }
